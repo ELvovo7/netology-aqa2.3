@@ -5,7 +5,7 @@ public class CityList {
 
     public static String getRandomCity() {
         ArrayList<String> city = new ArrayList<>();
-        city.add("Астрахать");
+        city.add("Москва");
         city.add("Волгоград");
         city.add("Грозный");
         city.add("Махачкала");
