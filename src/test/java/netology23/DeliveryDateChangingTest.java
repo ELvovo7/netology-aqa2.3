@@ -1,12 +1,13 @@
+package netology23;
+
 import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
-public class Aqa231Test {
+public class DeliveryDateChangingTest {
 
     private String testSite = "http://localhost:9999";
 
@@ -14,7 +15,6 @@ public class Aqa231Test {
     @DisplayName("Валидные данные. Ожидаем сообщение 'Успешно'")
     void inputValidDataExpectSuccess() {
         open(testSite);
-
         TestData.TestUser validUser = TestData.newValidUser();
 
         $("[data-test-id=city] input").setValue(validUser.getCity());
@@ -27,47 +27,43 @@ public class Aqa231Test {
 
     @Test
     @DisplayName("Валидные данные. Перепланируем, меняя дату.")
-    void replanedIfDateWasChanged() {
+    void replacedIfDateWasChanged() {
         open(testSite);
-
         TestData.TestUser validUser = TestData.newValidUser();
 
-         $("[data-test-id=city] input").setValue(validUser.getCity());
-         $("[data-test-id=name] input").setValue(validUser.getFullName());
-         $("[data-test-id=phone] input").setValue(validUser.getPhoneNumber());
-         $("[data-test-id=agreement]").click();
-         $$(".button").findBy(Condition.exactText("Запланировать")).click();
-         $("[data-test-id=success-notification]").waitUntil(Condition.visible, 3000);
-         $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE);
-         $("[data-test-id=date] input").sendKeys(TestData.shiftMyDate(4));
-         // лучше было бы считать текущее значение и прибавить день к нему
-         $$(".button").findBy(Condition.exactText("Запланировать")).click();
-         $("[data-test-id=replan-notification]").waitUntil(Condition.visible, 3000);
+        $("[data-test-id=city] input").setValue(validUser.getCity());
+        $("[data-test-id=name] input").setValue(validUser.getFullName());
+        $("[data-test-id=phone] input").setValue(validUser.getPhoneNumber());
+        $("[data-test-id=agreement]").click();
+        $$(".button").findBy(Condition.exactText("Запланировать")).click();
+        $("[data-test-id=success-notification]").waitUntil(Condition.visible, 3000);
+        $("[data-test-id=date] input").sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE);
+        $("[data-test-id=date] input").sendKeys(TestData.shiftMyDate(4));
+        // лучше было бы считать текущее значение и прибавить день к нему
+        $$(".button").findBy(Condition.exactText("Запланировать")).click();
+        $("[data-test-id=replan-notification]").waitUntil(Condition.visible, 3000);
     }
-// Тест падает при проверки валидности телефона - нет проверки на валидность телефона (невалидный)
-//    @Test
-//    @DisplayName("Невалидный телефон. Не должно быть сообщения 'Успешно'")
-//    void shouldBeErrorIfPhoneIsInvalid() {
-//        open(testSite);
-//
-//        TestData.TestUser validUser = TestData.newUserWithInvalidPhone();
-//
-//        $("[data-test-id=city] input").setValue(validUser.getCity());
-//        $("[data-test-id=name] input").setValue(validUser.getFullName());
-//        $("[data-test-id=phone] input").setValue(validUser.getPhoneNumber());
-//        $("[data-test-id=agreement]").click();
-//        $$(".button").findBy(Condition.exactText("Запланировать")).click();
-////        $("[data-test-id=phone]").shouldHave(Condition.cssClass("input_invalid"));
-////        $("[data-test-id=success-notification]").waitUntil(Condition.not(Condition.visible), 3000);
-//    }
+
+    @Test
+    @DisplayName("Невалидный телефон. Не должно быть сообщения 'Успешно'")
+    void shouldBeErrorIfPhoneIsInvalid() {
+        open(testSite);
+        TestData.TestUser validUser = TestData.newUserWithInvalidPhone();
+
+        $("[data-test-id=city] input").setValue(validUser.getCity());
+        $("[data-test-id=name] input").setValue(validUser.getFullName());
+        $("[data-test-id=phone] input").setValue(validUser.getPhoneNumber());
+        $("[data-test-id=agreement]").click();
+        $$(".button").findBy(Condition.exactText("Запланировать")).click();
+        $("[data-test-id=phone]").shouldHave(Condition.cssClass("input_invalid"));
+        $("[data-test-id=success-notification]").waitUntil(Condition.not(Condition.visible), 3000);
+    }
 
     @Test
     @DisplayName("Невалидные имя-фамилия. Ожидаем ошибку.")
     void shouldBeErrorIfNameIsInvalid() {
         open(testSite);
-
         TestData.TestUser validUser = TestData.newInvalidUser();
-
 
         $("[data-test-id=city] input").setValue(validUser.getCity());
         $("[data-test-id=name] input").setValue(validUser.getFullName());

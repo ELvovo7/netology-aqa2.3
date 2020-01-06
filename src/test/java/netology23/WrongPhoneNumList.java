@@ -1,3 +1,5 @@
+package netology23;
+
 import java.util.ArrayList;
 import java.util.Random;
 

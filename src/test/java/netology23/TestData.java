@@ -1,18 +1,34 @@
-import com.github.javafaker.Faker;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+package netology23;
 
+import com.github.javafaker.Faker;
 import java.time.LocalDate;
 import java.util.Locale;
 
 public class TestData {
 
-    @Data
-    @AllArgsConstructor
     public static class TestUser {
         public String city;
         public String fullName;
         public String phoneNumber;
+
+        public TestUser(String city, String fullName, String phoneNumber) {
+            this.city = city;
+            this.fullName = fullName;
+            this.phoneNumber = phoneNumber;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getFullName() {
+            return fullName;
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
     }
 
     public static TestUser newValidUser () {
